@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         inputTime.setText(null);
         inputNote.setText(null);
 
-        Toast T = Toast.makeText(this, "Event info saved", Toast.LENGTH_SHORT);
+        Toast T = Toast.makeText(this, "Event info saved!", Toast.LENGTH_SHORT);
         T.show();
 
     }
