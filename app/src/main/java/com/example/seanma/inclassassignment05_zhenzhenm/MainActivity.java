@@ -32,43 +32,60 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        eventInfoInput = (EditText) findViewById(R.id.type_name);
-        eventDateInput = (EditText) findViewById(R.id.type_date);
-        eventTimeInput = (EditText) findViewById(R.id.type_time);
-        eventNoteInput = (EditText) findViewById(R.id.type_note);
+        eventList = new ArrayList<>();
+
+        String key = getString(R.string.event_name);
+
+        SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
+        String eventString = sharedPref.getString(key, getString(R.string.event_name));
+
         eventText = (TextView) findViewById(R.id.eventText);
+        eventText.setText("Added, " + eventString + "!");
+        
 
     }
 
-    //Save and display the event info
+
+
+
     public void addSchedule(View view) {
-        SharedPreferences sharedPref = getSharedPreferences("Event info", Context.MODE_PRIVATE);
+        EditText nameEvent = (EditText) findViewById(R.id.type_name);
+        EditText inputDate = (EditText) findViewById(R.id.type_date);
+        EditText inputTime = (EditText) findViewById(R.id.type_time);
+        EditText inputNote = (EditText) findViewById(R.id.type_note);
 
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("Event name", eventInfoInput.getText().toString());
-        editor.putString("Date", eventDateInput.getText().toString());
-        editor.putString("Time", eventTimeInput.getText().toString());
-        editor.putString("Notes", eventNoteInput.getText().toString());
-        editor.apply();
+        String sNameEvent = nameEvent.getText().toString();
+        String sInputDate = inputDate.getText().toString();
+        String sInputTime = inputTime.getText().toString();
+        String sInputNote = inputNote.getText().toString();
 
-        String eventName = sharedPref.getString("Event name", "");
-        String eventDate = sharedPref.getString("Date", "");
-        String eventTime = sharedPref.getString("Time", "");
-        String eventNotes = sharedPref.getString("Notes", "");
 
-        eventText.setText(eventName + "\n" + eventDate + "\n" + eventTime + "\n" + eventNotes);
-
-        Event e = new Event(eventName, eventDate, eventTime, eventNotes);
+        Event e= new Event(sNameEvent, sInputDate, sInputTime, sInputNote);
         eventList.add(e);
-        eventInfoInput.setText("");
-        eventDateInput.setText("");
-        eventTimeInput.setText("");
-        eventNoteInput.setText("");
+
 
         Toast T = Toast.makeText(this, "Event info saved!", Toast.LENGTH_SHORT);
         T.show();
 
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(getString(R.string.event_name), sNameEvent);
+        editor.commit();
+
+        nameEvent.setText("");
+        inputDate.setText("");
+        inputTime.setText("");
+        inputNote.setText("");
+
+        TextView eventDisplay = (TextView) findViewById(R.id.eventText);
+        String msg ="Added Event: "+ sNameEvent+"\n"
+                    + sInputDate+"\n"
+                +sInputTime+"\n"
+                +sInputNote;
+        eventDisplay.setText(msg);
     }
+
 
     //Print the saved data on new page
 
