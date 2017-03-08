@@ -91,4 +91,12 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/eventText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="#FFAA66CC"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
 </LinearLayout>

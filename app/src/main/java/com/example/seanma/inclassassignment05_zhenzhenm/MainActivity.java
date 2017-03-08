@@ -1,10 +1,13 @@
 package com.example.seanma.inclassassignment05_zhenzhenm;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -12,43 +15,59 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<Event> eventList = new ArrayList<>();
-
+    EditText eventInfoInput;
+    EditText eventDateInput;
+    EditText eventTimeInput;
+    EditText eventNoteInput;
+    TextView eventText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        eventInfoInput = (EditText) findViewById(R.id.type_name);
+        eventDateInput = (EditText) findViewById(R.id.type_date);
+        eventTimeInput = (EditText) findViewById(R.id.type_time);
+        eventNoteInput = (EditText) findViewById(R.id.type_note);
+        eventText = (TextView) findViewById(R.id.eventText);
+
     }
 
+    //Save and display the event info
+    public void addCalendar(View view){
+        SharedPreferences sharedPref = getSharedPreferences("Event info", Context.MODE_PRIVATE);
 
-    public void addCalendar(View view) {
-        EditText nameEvent = (EditText) findViewById(R.id.type_name);
-        EditText inputDate = (EditText) findViewById(R.id.type_date);
-        EditText inputTime = (EditText) findViewById(R.id.type_time);
-        EditText inputNote = (EditText) findViewById(R.id.type_note);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("Event name", eventInfoInput.getText().toString());
+        editor.putString("Date", eventDateInput.getText().toString());
+        editor.putString("Time", eventTimeInput.getText().toString());
+        editor.putString("Notes", eventNoteInput.getText().toString());
+        editor.apply();
 
-        String sNameEvent = nameEvent.getText().toString();
-        String sInputDate = inputDate.getText().toString();
-        String sInputTime = inputTime.getText().toString();
-        String sInputNote = inputNote.getText().toString();
+        String eventName = sharedPref.getString("Event name","");
+        String eventDate = sharedPref.getString("Date","");
+        String eventTime = sharedPref.getString("Time", "");
+        String eventNotes = sharedPref.getString("Notes","");
 
-        Event e= new Event(sNameEvent, sInputDate, sInputTime, sInputNote);
+        eventText.setText(eventName + "\n" + eventDate + "\n" + eventTime + "\n" + eventNotes);
+
+        Event e= new Event(eventName, eventDate, eventTime, eventNotes);
         eventList.add(e);
-
-        nameEvent.setText(null);
-        inputDate.setText(null);
-        inputTime.setText(null);
-        inputNote.setText(null);
 
         Toast T = Toast.makeText(this, "Event info saved!", Toast.LENGTH_SHORT);
         T.show();
 
     }
 
-    public void goCalendar(View view) {
+    //Print the saved data on new page
+
+    public void goCalendar (View view){
+
         Intent intent = new Intent (this, CalendarActivity.class);
         intent.putExtra("Event List", eventList);
         startActivity(intent);
 
     }
+
 }
