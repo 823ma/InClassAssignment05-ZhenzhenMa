@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         eventText = (TextView) findViewById(R.id.eventText);
         eventText.setText("Added, " + eventString + "!");
-        
+
 
     }
 

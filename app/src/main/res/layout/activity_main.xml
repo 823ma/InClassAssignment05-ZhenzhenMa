@@ -80,14 +80,14 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add to Calendar"
-        android:onClick="addCalendar" />
+        android:text="Add to Schedule"
+        android:onClick="addSchedule" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go to Calendar"
-        android:onClick="goCalendar" />
+        android:text="Go to Schedule"
+        android:onClick="goSchedule" />
 
     </LinearLayout>
 
